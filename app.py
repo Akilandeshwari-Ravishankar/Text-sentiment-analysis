@@ -9,8 +9,12 @@ import numpy as np
 import nltk
 from nltk.corpus import stopwords
 from nltk.stem import WordNetLemmatizer
+from google.transliteration import transliterate_text
+from google_trans_new import google_translator  
+import requests
 
 app = Flask(__name__)
+
 
 @app.route('/')
 def home():
@@ -29,6 +33,7 @@ def get_lemmatized(review_list):
   lemmatizer = WordNetLemmatizer()
   return [' '.join([lemmatizer.lemmatize(word) for word in review.split()]) for review in review_list]
 
+
 @app.route("/submit", methods=['POST'])
 def submit():
     #Alternative Usage of Saved Model
@@ -40,13 +45,17 @@ def submit():
 
     if request.method == 'POST':
         message = request.form['message']
-        review = [message]
+        translit_result = transliterate_text(message, lang_code='ta')
+        translator = google_translator() 
+        translate_result = translator.translate(translit_result, lang_src='ta', lang_tgt='en')
+        review = [translate_result]
         review = remove_stopwords(review)
         review = get_lemmatized(review)
         my_review = np.array(review)
         my_test_review = clf.transform(my_review)
         my_prediction = clf_model.predict(my_test_review)
-    return render_template('result.html', prediction = my_prediction)
+    return render_template('result.html', inp_message=message, tamil_msg=translit_result, translated_eng_msg=translate_result, prediction=my_prediction)
+    
 
 if __name__ == '__main__':
     app.run(debug=True)
