@@ -36,7 +36,7 @@ def get_lemmatized(review_list):
 
 @app.route("/submit", methods=['POST'])
 def submit():
-    #Alternative Usage of Saved Model
+    # loading the models
     ngram_model = open('ngram_vectorizer','rb')
     clf = joblib.load(ngram_model)
     
@@ -45,9 +45,14 @@ def submit():
 
     if request.method == 'POST':
         message = request.form['message']
+
+        #transliterate the input message
         translit_result = transliterate_text(message, lang_code='ta')
+        
+        #translating the input message [Tamil ------ to ------ English]
         translator = google_translator() 
         translate_result = translator.translate(translit_result, lang_src='ta', lang_tgt='en')
+        
         review = [translate_result]
         review = remove_stopwords(review)
         review = get_lemmatized(review)
