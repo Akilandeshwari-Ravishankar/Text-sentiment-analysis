@@ -37,11 +37,8 @@ def get_lemmatized(review_list):
 @app.route("/submit", methods=['POST'])
 def submit():
     # loading the models
-    ngram_model = open('ngram_vectorizer','rb')
-    clf = joblib.load(ngram_model)
-    
-    model = open('sentiment_analyser','rb')
-    clf_model = joblib.load(model)
+    clf = pickle.load(open('ngram_vectorizer', 'rb'))
+    clf_model = pickle.load(open('sentiment_analyser', 'rb'))
 
     if request.method == 'POST':
         message = request.form['message']
