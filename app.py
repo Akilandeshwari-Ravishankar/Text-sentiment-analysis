@@ -31,9 +31,6 @@ def get_lemmatized(review_list):
 
 @app.route("/submit", methods=['POST'])
 def submit():
-    nltk.download('stopwords')
-    nltk.download('wordnet')
-
     #Alternative Usage of Saved Model
     ngram_model = open('ngram_vectorizer','rb')
     clf = joblib.load(ngram_model)
