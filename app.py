@@ -13,6 +13,10 @@ from google.transliteration import transliterate_text
 from google_trans_new import google_translator  
 import requests
 
+# loading the models
+clf = pickle.load(open('ngram_vectorizer', 'rb'))
+clf_model = pickle.load(open('sentiment_analyser', 'rb'))
+
 app = Flask(__name__)
 
 
@@ -36,10 +40,6 @@ def get_lemmatized(review_list):
 
 @app.route("/submit", methods=['POST'])
 def submit():
-    # loading the models
-    clf = pickle.load(open('ngram_vectorizer', 'rb'))
-    clf_model = pickle.load(open('sentiment_analyser', 'rb'))
-
     if request.method == 'POST':
         message = request.form['message']
 
