@@ -53,11 +53,19 @@
                     <h4>Sentiment Analysis :</h4>
                     <h5 style="color: #00AD85;">{{prediction}}</h5>
                   </div><br>                 
-              </div>              
+              </div>   
+              
+              <!-- <div class="container" style="overflow: none;display: grid; place-items: center; margin: 10px;">
+                  <input type="button" value = "Check for another message", id= "submit", style="background-color: #00ADB5; border-radius: 10%; border: none; padding: 8px 20px; color: #eee;margin-top: 3px;"> 
+              </div> -->
           </div>
           <div class="col-sm-6" style="display: grid; justify-content: center;">
-              <img src="{{url_for('static', filename='Bg.png')}}", alt="", style="object-fit:contain; width: 100%;">
-
+              <img src="{{url_for('static', filename='Bg.png')}}", alt="" style="object-fit:contain; width: 100%;">
+              <form action="{{url_for('index')}}" method="POST" style="font-size: 18px; margin-top: 10px;">
+                <div class="container" style="overflow: none;display: grid; place-items: center; margin: 10px; justify-content: center;">
+                  <input type="submit" value = "Check for another message" id= "submit" style="background-color: #00ADB5; border-radius: 10%; border: none; padding: 8px 20px; color: #eee;"> 
+                </div>
+              </form>
           </div>
         </div>
     </div>
